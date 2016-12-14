@@ -16,12 +16,27 @@
 
     <label for="base">Base Color</label>
     <input type="color" name="base" value="#ffc600">
+
+    <label for="border-radius">Border Radius</label>
+    <input type="range" name="border-radius" min="0" max="100" value="50%" data-sizing="%">
   </div>
 
-  <img src="https://source.unsplash.com/7bwQXzbF6KE/800x500">
+  <img src="https://images.unsplash.com/photo-1465188162913-8fb5709d6d57?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=800&h=500&fit=crop&s=457a080dacaee4918703e6df4e4574af">
 
   <style>
-
+    :root {
+      --base: #ffc600;
+      --spacing: 10px;
+      --blur: 1px;
+      --border-radius: 100%;
+    }
+    
+    img {
+      padding: var(--spacing);
+      background: var(--base);
+      filter: blur(var(--blur));
+      border-radius: var(--border-radius);
+    }
     /*
       misc styles, nothing to do with CSS variables
     */
@@ -48,6 +63,17 @@
   </style>
 
   <script>
+
+    const inputs = document.querySelectorAll('.controls input');
+
+    function handleUpdate() {
+      const suffix = this.dataset.sizing || '';
+      document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
+    }
+
+    inputs.forEach(input => input.addEventListener('change', handleUpdate));
+    inputs.forEach(input => input.addEventListener('mousemove', handleUpdate));
+
   </script>
 
 </body>
